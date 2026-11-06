@@ -53,3 +53,24 @@ The included workflow validates lint, unit tests, type checking, build, and brow
 ## Mathematical context
 
 Turing machines formalize effective procedures. Recognizing acceptance and deciding it are different capabilities. If an acceptance decider existed, the computable construction in this application would produce a halting decider, contradicting halting undecidability. The simulator illustrates individual executions; the symbolic construction supplies the general implication.
+
+## Machine-level proof laboratory
+
+The default view is now a structured proof notebook. The existing machine tools remain available through “Open existing machine tools”; no additional generic simulator was introduced.
+
+- **A_TM ≤m M_HEAD**: inspect M, w, their encoding, M′, f, the hypothetical target decider H, and source decider S. The construction exposes its two-way tape model, product alphabet and origin marker, safe initialization, L → LRL motion compilation, acceptance-only LLL signal, and macro-boundary invariant. The physical trace viewer runs a concrete source fixture through micro-instructions and compares full tape/head configurations at macro boundaries. The symbolic accept/reject/loop cases are separate predefined mathematical examples.
+- **A_TM ≤m HALT_TM**: acceptance halts the wrapper; rejection enters an explicit infinite loop. The rejecting-source counterexample explains why preserving arbitrary source halting would be wrong.
+- **Diagonalization**: H, D, ⟨D⟩, and D(⟨D⟩) remain distinct objects. Explore both hypothetical H answers and the opposing actual D branch.
+- **Proof debugger**: inspect four invalid arguments, violated obligations, concrete counterexamples, and corrected inferences.
+
+Each mapping proof has seven selectable execution stages, formal notation, pseudocode, two implications, and expandable proof obligations. H is never an implemented oracle. Selecting an H branch explores a hypothetical premise, independent of a bounded machine execution. A predefined looping fixture is mathematically known to loop; an arbitrary bounded trace reports unknown.
+
+Proof architecture:
+
+- `src/proofs/engine.ts`: typed proof representation, explicit wrapper grammar, encoded construction, symbolic branching, diagonal negation, and motion transformation rules.
+- `src/proofs/content.ts`: mathematical definitions, proofs, assumptions, source cases, and debugger arguments separated from rendering.
+- `src/proofs/compiler.ts`: bounded physical micro-instruction trace compiler over a marked product tape, safe initialization, tape/head invariant checks, and an executable delayed-acceptance counterexample.
+- `src/proofs/ProofLaboratory.tsx`: reusable `MachineConstructionViewer`, `ReductionDiagram`, `HypotheticalDeciderPanel`, `ProofObligationInspector`, `ContradictionExplorer`, `CounterexampleDebugger`, and `FormalProofRenderer`.
+- `src/proofs/proofs.test.ts` and `tests/proofs.spec.ts`: exhaustive short movement-word safety checks, concrete machine invariants, source cases, timeout counterexample, and desktop/mobile proof interactions.
+
+The engine supports these specified constructions, not arbitrary undecidability proof search or verification. Proof text supplies the general infinite-case argument; exhaustive finite-word tests and bounded execution provide implementation evidence and do not replace that argument. Invalid input encodings are mapped to a fixed nonaccepting right-loop target to make the mathematical transformation total. JSON proof exports serialize the proof and wrapper recipe; they are inspectable artifacts, not claims of a general formal verification certificate.
